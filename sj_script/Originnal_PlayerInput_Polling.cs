@@ -5,10 +5,12 @@ using UnityEngine.InputSystem; // <- need this
 
 /************************************************************
 ************************************************************/
-public class ProjectWide_Polling : MonoBehaviour
+public class Originnal_PlayerInput_Polling : MonoBehaviour
 {
 	/****************************************
 	****************************************/
+	PlayerInput player_input_;
+	
 	[SerializeField] float move_speed_ = 10.0f;
 	
 	Rigidbody rb_;
@@ -25,9 +27,11 @@ public class ProjectWide_Polling : MonoBehaviour
 	******************************/
     void Awake()
     {
-		action_move_	= InputSystem.actions.FindActionMap("MyMap").FindAction("MyMove");
-		action_jump_	= InputSystem.actions.FindActionMap("MyMap").FindAction("MyJump");
-		action_check_	= InputSystem.actions.FindActionMap("MyMap").FindAction("MyCheck");
+		player_input_ = GetComponent<PlayerInput>();
+		
+		action_move_	= player_input_.actions.FindActionMap("MyMap").FindAction("MyMove");
+		action_jump_	= player_input_.actions.FindActionMap("MyMap").FindAction("MyJump");
+		action_check_	= player_input_.actions.FindActionMap("MyMap").FindAction("MyCheck");
 	}
 	
 	/******************************

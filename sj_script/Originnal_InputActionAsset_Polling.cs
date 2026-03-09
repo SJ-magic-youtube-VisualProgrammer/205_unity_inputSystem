@@ -5,7 +5,7 @@ using UnityEngine.InputSystem; // <- need this
 
 /************************************************************
 ************************************************************/
-public class Originnal_InputActionAsset : MonoBehaviour
+public class Originnal_InputActionAsset_Polling : MonoBehaviour
 {
 	/****************************************
 	****************************************/
@@ -65,11 +65,11 @@ public class Originnal_InputActionAsset : MonoBehaviour
 		/********************
 		********************/
 		if( action_jump_.WasPressedThisFrame() ){
-			Debug.Log("MyJump");
+			Debug.Log("MyJump" + Time.time);
 		}
 		
 		if( action_check_.WasPressedThisFrame() ){
-			Debug.Log("MyCheck");
+			Debug.Log("MyCheck" + Time.time);
 		}
         
     }

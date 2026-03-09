@@ -5,7 +5,7 @@ using UnityEngine.InputSystem; // <- need this
 
 /************************************************************
 ************************************************************/
-public class Originnal_PlayerInput : MonoBehaviour
+public class Originnal_PlayerInput_Event : MonoBehaviour
 {
 	/****************************************
 	****************************************/
@@ -38,12 +38,26 @@ public class Originnal_PlayerInput : MonoBehaviour
 	******************************/
     void OnEnable()
     {
+		action_move_.started	+= OnMoveStarted;
+		action_move_.performed	+= OnMove;
+		action_move_.canceled	+= OnMoveCanceled;
+		
+		action_jump_.performed	+= OnJump;
+		
+		action_check_.performed	+= OnCheck;
 	}
 	
 	/******************************
 	******************************/
     void OnDisable()
     {
+		action_move_.started	-= OnMoveStarted;
+		action_move_.performed	-= OnMove;
+		action_move_.canceled	-= OnMoveCanceled;
+		
+		action_jump_.performed	-= OnJump;
+		
+		action_check_.performed	-= OnCheck;
 	}
 	
 	/******************************
@@ -57,20 +71,41 @@ public class Originnal_PlayerInput : MonoBehaviour
 	******************************/
     void Update()
     {
-		/********************
-		********************/
-		Vector2 val = action_move_.ReadValue<Vector2>() * move_speed_;
-		rb_.linearVelocity = new Vector3(val.x, 0, val.y);
-		
-		/********************
-		********************/
-		if( action_jump_.WasPressedThisFrame() ){
-			Debug.Log("MyJump");
-		}
-		
-		if( action_check_.WasPressedThisFrame() ){
-			Debug.Log("MyCheck");
-		}
         
     }
+	
+	/******************************
+	******************************/
+    void OnMoveStarted(InputAction.CallbackContext ctx){
+		Debug.Log("OnMoveStarted : " + Time.time);
+	}
+	
+	/******************************
+	******************************/
+    void OnMove(InputAction.CallbackContext ctx){
+		Vector2 val = ctx.ReadValue<Vector2>() * move_speed_;
+		
+		// transform.Translate(zx * Time.deltaTime * move_speed_);
+		rb_.linearVelocity = new Vector3(val.x, 0, val.y);
+	}
+	
+	/******************************
+	******************************/
+    void OnMoveCanceled(InputAction.CallbackContext ctx){
+		Debug.Log("OnMoveCanceled : " + Time.time);
+		
+		rb_.linearVelocity = new Vector3(0, 0, 0);
+	}
+	
+	/******************************
+	******************************/
+    void OnJump(InputAction.CallbackContext ctx){
+		Debug.Log("OnJump : " + Time.time);
+	}
+	
+	/******************************
+	******************************/
+    void OnCheck(InputAction.CallbackContext ctx){
+		Debug.Log("OnCheck : " + Time.time);
+	}
 }
